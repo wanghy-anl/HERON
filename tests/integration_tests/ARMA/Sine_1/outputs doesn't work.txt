@@ -1,0 +1,47 @@
+Attempt 2:
+Haoyu Debug, BOP , t= 12.0 , curr= 1130.83822821844 , V1=  1130.83822821844 , r(MW)= 1130.83822821844 , vp(MW)= 1130.83822821844
+Haoyu Debug, BOP , t= 13.0 , curr= 1130.83822821848 , V1=  1130.8382282184714 , r(MW)= 1130.83822821848 , vp(MW)= 1130.8382282184714
+Haoyu Debug, BOP , t= 14.0 , curr= 1130.83822821845 , V1=  1130.83822821845 , r(MW)= 1130.83822821845 , vp(MW)= 1130.83822821845
+Haoyu Debug, BOP , t= 15.0 , curr= 1130.83822821846 , V1=  1130.83822821846 , r(MW)= 1130.83822821846 , vp(MW)= 1130.83822821846
+Haoyu Debug, SES , t= 12.0 , curr= 49.9965157540837 , V1=  49.9965157540837 , r(MW)= 49.9965157540837 , vp(MW)= 49.9965157540837
+Haoyu Debug, SES , t= 13.0 , curr= 39.0919686470297 , V1=  39.0919686470297 , r(MW)= 39.0919686470297 , vp(MW)= 39.0919686470297
+Haoyu Debug, SES , t= 14.0 , curr= 49.9965157540837 , V1=  49.9965157540837 , r(MW)= 49.9965157540837 , vp(MW)= 49.9965157540837
+Haoyu Debug, SES , t= 15.0 , curr= 49.9965157540837 , V1=  49.9965157540837 , r(MW)= 49.9965157540837 , vp(MW)= 49.9965157540837
+Haoyu Debug, TES , t= 12.0 , curr= 501035.514115393 , V1=  501004.07466024946 , r(MW)= -35.83753656700719 , vp(MW)= -4.398081423452985
+Haoyu Debug, TES , t= 13.0 , curr= 501041.031740896 , V1=  501003.3277291276 , r(MW)= -36.95708064653445 , vp(MW)= 0.7469311218787575
+Haoyu Debug, TES , t= 14.0 , curr= 501039.370626345 , V1=  501002.7378434866 , r(MW)= -36.04289721738314 , vp(MW)= 0.5898856410308171
+Haoyu Debug, TES , t= 15.0 , curr= 501022.175433394 , V1=  501001.7806320647 , r(MW)= -19.437589907378424 , vp(MW)= 0.957211421916438
+DEBUGG ... ... Time 12 (12.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_12_vld_limit_constr_2"
+DEBUGG ... ... Time 13 (13.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_13_vld_limit_constr_2"
+DEBUGG ... ... Time 14 (14.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_14_vld_limit_constr_2"
+DEBUGG ... ... Time 15 (15.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_15_vld_limit_constr_2"
+
+Attempt 3:
+Haoyu Debug, BOP , t= 12.0 , curr= 1130.8382282185 , V1=  1130.8382282184714 , r(MW)= 1130.8382282185 , vp(MW)= 1130.8382282184714
+Haoyu Debug, BOP , t= 13.0 , curr= 1130.83822821848 , V1=  1130.8382282184714 , r(MW)= 1130.83822821848 , vp(MW)= 1130.8382282184714
+Haoyu Debug, SES , t= 12.0 , curr= 18.5570606106776 , V1=  19.317390284551493 , r(MW)= 18.5570606106776 , vp(MW)= 19.317390284551493
+Haoyu Debug, SES , t= 13.0 , curr= 32.8274120215792 , V1=  32.8274120215792 , r(MW)= 32.8274120215792 , vp(MW)= 32.8274120215792
+Haoyu Debug, TES , t= 12.0 , curr= 501004.074660249 , V1=  501003.69132692076 , r(MW)= -4.398081423016265 , vp(MW)= -4.014748094752985
+Haoyu Debug, TES , t= 13.0 , curr= 501003.327729128 , V1=  501002.29882478266 , r(MW)= 0.36359779274789616 , vp(MW)= 1.3925021380749134
+DEBUGG ... ... Time 12 (12.0) Component "SES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "SES_electricity_12_vld_limit_constr_2"
+DEBUGG ... ... Time 12 (12.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_12_vld_limit_constr_3"
+DEBUGG ... ... Time 13 (13.0) Component "TES" Resource "electricity": Reference Governor Violation
+DEBUGG added validation constraint "TES_electricity_13_vld_limit_constr_3"
+
+Attempt 4:
+Haoyu Debug, BOP , t= 12.0 , curr= 1130.07789854462 , V1=  1130.07789854462 , r(MW)= 1130.07789854462 , vp(MW)= 1130.07789854462
+Haoyu Debug, SES , t= 12.0 , curr= 19.3173902845515 , V1=  19.3173902845515 , r(MW)= 19.3173902845515 , vp(MW)= 19.3173902845515
+Haoyu Debug, TES , t= 12.0 , curr= 501004.074660249 , V1=  501003.69132692076 , r(MW)= -4.398081423016265 , vp(MW)= -4.014748094752985
+DEBUGG ... ... Time 12 (12.0) Component "TES" Resource "electricity": Reference Governor Violation
+
+Attempt 5:
+Haoyu Debug, BOP , t= 12.0 , curr= 1130.07789854462 , V1=  1130.07789854462 , r(MW)= 1130.07789854462 , vp(MW)= 1130.07789854462
+Haoyu Debug, SES , t= 12.0 , curr= 19.3173902845515 , V1=  19.3173902845515 , r(MW)= 19.3173902845515 , vp(MW)= 19.3173902845515
+Haoyu Debug, TES , t= 12.0 , curr= 501004.074660249 , V1=  501003.69132692076 , r(MW)= -4.398081423016265 , vp(MW)= -4.014748094752985
+DEBUGG ... ... Time 12 (12.0) Component "TES" Resource "electricity": Reference Governor Violation

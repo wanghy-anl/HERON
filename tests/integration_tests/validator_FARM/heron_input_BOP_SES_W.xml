@@ -1,0 +1,110 @@
+<HERON>
+  <TestInfo>
+    <name>validator</name>
+    <author>talbpaul</author>
+    <created>2020-09-14</created>
+    <description>
+      Tests using a ``validator'' to modify behavior of a dispatch optimizer. Uses the Example
+      validator.
+    </description>
+    <classesTested>HERON</classesTested>
+  </TestInfo>
+
+  <Case name="Sweep_Runs">
+    <mode>sweep</mode>
+    <num_arma_samples>1</num_arma_samples>
+    <time_discretization>
+      <time_variable>Time</time_variable>
+      <end_time>2</end_time>
+      <num_steps>21</num_steps>
+    </time_discretization>
+    <economics>
+      <ProjectTime>1</ProjectTime>
+      <DiscountRate>0.08</DiscountRate>
+      <tax>0.0</tax>
+      <inflation>0.0</inflation>
+      <verbosity>50</verbosity>
+    </economics>
+    <dispatcher>
+      <pyomo/>
+    </dispatcher>
+    
+    <validator>
+      <RefGov_SESBOP_W/>
+    </validator>
+  
+  </Case>
+
+  <Components>
+    <Component name="SES">
+      <produces resource="electricity" dispatch="independent">
+        <capacity resource="electricity">
+          <fixed_value>45</fixed_value>
+        </capacity>
+      </produces>
+      <economics>
+        <lifetime>30</lifetime>
+		<CashFlow name="e_prod" type="repeating" taxable='True' inflation='none' mult_target='False'>
+          <driver>
+            <!-- <fixed_value>50</fixed_value> -->
+			<Function method="electric_prod">transfers</Function>
+          </driver>
+          <reference_price>
+            <!-- <fixed_value>-0.4</fixed_value> -->
+			<Function method="flex_cost">transfers</Function>
+          </reference_price>
+        </CashFlow>
+      </economics>
+    </Component>
+
+    <Component name="BOP">
+      <produces resource="electricity" dispatch="dependent">
+        <capacity resource="electricity">
+          <fixed_value>1500</fixed_value>
+		  <!-- <sweep_values> 1440,1460</sweep_values> -->
+        </capacity>
+      </produces>
+      <economics>
+        <lifetime>30</lifetime>
+		<CashFlow name="e_prod" type="repeating" taxable='True' inflation='none' mult_target='False'>
+          <driver>
+            <!-- <fixed_value>1450</fixed_value> -->
+			<Function method="electric_prod">transfers</Function>
+          </driver>
+          <reference_price>
+            <fixed_value>-100</fixed_value>
+			<!-- <Function method="flex_cost">transfers</Function> -->
+          </reference_price>
+        </CashFlow>
+      </economics>
+    </Component>
+
+    <Component name="electr_market">
+      <demands resource="electricity" dispatch="fixed"><!---->
+        <capacity>
+          <!-- <fixed_value>-1480</fixed_value> -->
+		  <sweep_values> -1475,-1470</sweep_values>
+        </capacity>
+      </demands>
+      <economics>
+        <lifetime>30</lifetime>
+        <CashFlow name="e_sales" type="repeating" taxable='True' inflation='none' mult_target='False'>
+          <driver>
+            <Function method="electric_consume">transfers</Function>
+            <!-- <resource multiplier="-1" absolute="True">electricity</resource> -->
+          </driver>
+          <reference_price>
+            <fixed_value>200</fixed_value>
+          </reference_price>
+        </CashFlow>
+      </economics>
+    </Component>
+
+  </Components>
+
+  <DataGenerators>
+    <ARMA name='Price' variable="Signal">../ARMA/Sine/arma.pk</ARMA>
+    <Function name="transfers">transfers.py</Function>
+  </DataGenerators>
+
+</HERON>
