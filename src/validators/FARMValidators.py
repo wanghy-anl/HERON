@@ -218,7 +218,8 @@ class Para_RefGov_SESBOPTES_MW(Validator):
                   V1 = v_value
                 
                 # print("Haoyu Debug, unit=",str(unit),", t=",time, ", curr=",current, ", V1= ",V1, ", r(MW)=",r_value, ", vp(MW)=", v_value)
-                print("Haoyu Debug, unit=",str(unit),", t=",time, ", curr=",current, ", V1= ",V1, ", delta=", (V1-current))
+                # print("Haoyu Debug, unit=",str(unit),", t=",time, ", curr=",current, ", V1= ",V1, ", delta=", (V1-current))
+                print("Haoyu Debug, unit=",str(unit),", t=",time, ", curr= %.8g, V1= %.8g, delta=%.8g" %(current, V1, (V1-current)))
 
                 # Write up any violation to the errs:
                 if abs(current - V1) > self._tolerance:
