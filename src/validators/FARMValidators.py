@@ -52,7 +52,7 @@ class Para_RefGov_SESBOPTES_MW(Validator):
       @ Out, None
     """
     self.name = 'BaseValidator'
-    self._tolerance = 1e-6
+    self._tolerance = 1.003e-6
     self._unitInfo = { # a two-layer dictionary, containing the matrix, lower/upper constraints, and XLast to start with
       'BOP':{
         'MatrixFile':"D:\\GitProjects\\wanghy_fork\\HERON\\tests\\integration_tests\\validator_FARM\\BOP_SES_TES_Mat_Unit_MW\\DMDcCxCoeff_BOP_para.xml",
@@ -222,7 +222,7 @@ class Para_RefGov_SESBOPTES_MW(Validator):
                 print("Haoyu Debug, unit=",str(unit),", t=",time, ", curr= %.8g, V1= %.8g, delta=%.8g" %(current, V1, (V1-current)))
 
                 # Write up any violation to the errs:
-                if abs(current - V1) > self._tolerance:
+                if abs(current - V1) > self._tolerance*max(abs(current),abs(V1)):
                   # violation
                   errs.append({'msg': f'Reference Governor Violation',
                               'limit': V1,

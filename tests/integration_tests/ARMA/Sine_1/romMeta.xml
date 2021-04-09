@@ -13,11 +13,11 @@
       <GlobalROM segment="all" type="Static">
         <Signal>
           <Fourier>
-            <SignalIntercept>-1.147500000e+03</SignalIntercept>
+            <SignalIntercept>-1.143000000e+03</SignalIntercept>
             <period>2.400000000e+01
               <frequency>4.166666667e-02</frequency>
-              <amplitude>7.499718903e+01</amplitude>
-              <phase>3.910082831e-16</phase>
+              <amplitude>7.999883387e+01</amplitude>
+              <phase>3.691188006e-16</phase>
             </period>
           </Fourier>
         </Signal>
@@ -25,15 +25,15 @@
       <ClusterROM cluster="0" type="Static">
         <Signal>
           <Fourier>
-            <SignalIntercept>-1.147500000e+03</SignalIntercept>
+            <SignalIntercept>-1.143000000e+03</SignalIntercept>
             <period>2.400000000e+01
               <frequency>4.166666667e-02</frequency>
-              <amplitude>7.499718903e+01</amplitude>
-              <phase>3.910082831e-16</phase>
+              <amplitude>7.999883387e+01</amplitude>
+              <phase>3.691188006e-16</phase>
             </period>
           </Fourier>
           <ARMA_params>
-            <std>2.3311040558</std>
+            <std>3.36974187504</std>
           </ARMA_params>
         </Signal>
         <segments_represented>0</segments_represented>
