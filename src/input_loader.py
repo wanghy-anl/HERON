@@ -4,14 +4,13 @@
 """
   Parses an input file, returning the objects therein.
 """
-import os
 import sys
+import xml.etree.ElementTree as ET
 
 import Cases
 import Components
 import Placeholders
-import time
-import xml.etree.ElementTree as ET
+import ValuedParams
 
 import _utils as hutils
 raven_path = hutils.get_raven_loc()
@@ -77,22 +76,26 @@ def parse(xml, loc, messageHandler):
 
   # now go back through and link up stuff
   # TODO move to case.initialize?
+  need_source = (ValuedParams.factory.returnClass('Function'),
+                 ValuedParams.factory.returnClass('ARMA')
+                 )
   for comp in components:
     found = {}
     for interaction, i_info in comp.get_crossrefs().items():
       found[interaction] = {}
       for attr, info in i_info.items():
-        typ, name = info.get_source()
+        kind, name = info.get_source()
         # if not looking for a DataGenerator placeholder, then nothing more to do
-        if typ not in ['Function', 'ARMA']:
+        # if using "activity", also nothing to do
+        if kind not in ['Function', 'ARMA']:
           continue
         # find it
         for source in sources:
-          if source.is_type(typ) and source.name == name:
+          if source.is_type(kind) and source.name == name:
             found[interaction][attr] = source
             break
         else:
-          raise IOError('Requested source "{}" for component "{}" was not found!'.format(name, comp.name))
+          raise IOError(f'Requested source "{name}" for component "{comp.name}" was not found!')
     comp.set_crossrefs(found)
 
   # then do pre-writing initialization
