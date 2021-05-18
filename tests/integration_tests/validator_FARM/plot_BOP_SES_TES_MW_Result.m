@@ -66,96 +66,113 @@ for i=5:7
 end
 time_hour = time_hour/3600;
 time = time/3600;
-%%
-% figure(1)
-% set(gcf,'Position',[100 50 600 500])
-% % Plot the stacked bar of power components
-% bar(time_hour, power_array_hour, 'stacked');hold on
-% % Plot the total power provided
-% plot(time, power_provided,'LineWidth',3);hold off
-% xlabel('Time (Hour)');ylabel('Power (MW)'); 
-% xlim([0 24]);xticks(0:4:24)
+%% 1. Plot the power dispatch stack
+x_label_min=0;
+x_label_max=168;
+x_tick_interval=24;
+
+figure(10)
+set(gcf,'Position',[100 50 600 500])
+% Plot the stacked bar of power components
+bar(time_hour, power_array_hour, 'stacked');hold on
+% Plot the total power provided
+plot(time, power_provided,'LineWidth',3);hold off
+xlabel('Time (Hour)');ylabel('Power (MW)'); 
+xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
 % legend('BOP Output Power','SES Output Power','TES Discharging(+)/Charging(-)','Market Demand','Location','best')
-% title('Contribution of each Power Source')
-%%
-% figure(2)
-% set(gcf,'Position',[100 50 1400 1050])
-% 
-% for unit_idx=1:3
-%     % Plot the output power for all 3 units
-%     subplot(3,3,(unit_idx-1)*3+1)
-%     if unit_idx==1
-%         plot(time,BOP_vyminmax(:,1))
+legend('BOP','SES','TES Discharging(+)/Charging(-)','Market Demand','Location','best')
+title('Contribution of each Power Source')
+
+print('Figure_10.png','-dpng','-r300')
+
+%% 2. Plot the explicit and implicit constraints v.s. time
+figure(20)
+set(gcf,'Position',[100 50 1400 1050])
+
+for unit_idx=1:3
+    % Plot the output power for all 3 units
+    subplot(3,3,(unit_idx-1)*3+1)
+    if unit_idx==1
+        plot(time,BOP_vyminmax(:,1))
 %         y_lb = min(BOP_vyminmax(:,1)); y_ub = max(BOP_vyminmax(:,1));
-%         title('BOP Dispatched Power')
-%     elseif unit_idx==2
-%         plot(time,SES_vyminmax(:,1))
+        y_lb = min(BOP_vyminmax(:,3)); y_ub = max(BOP_vyminmax(:,4));
+        title('BOP Dispatched Power')
+    elseif unit_idx==2
+        plot(time,SES_vyminmax(:,1))
 %         y_lb = min(SES_vyminmax(:,1)); y_ub = max(SES_vyminmax(:,1));
-%         title('SES Dispatched Power')
-%     elseif unit_idx==3
-%         plot(time,TES_vyminmax(:,1))
-%         y_lb = min(TES_vyminmax(:,1)); y_ub = max(TES_vyminmax(:,1));
-%         title({'TES Dispatched Power','Discharging(-)/Charging(+)'})
-%     end
-%     xlabel('Time (Hour)');ylabel('Power (MW)'); 
-%     xlim([0 24]); ylim([y_lb-1 y_ub+1])
-%     xticks(0:4:24)
-%     ytickformat('%.2f')
-%     
-%     % Plot y1 and its min/max
-%     subplot(3,3,(unit_idx-1)*3+2)
-%     if unit_idx==1
-%         plot(time,BOP_vyminmax(:,4),'--r','LineWidth',3); hold on % y1max
-%         plot(time,BOP_vyminmax(:,2),'-k'); % y1
-%         plot(time,BOP_vyminmax(:,3),'--b','LineWidth',3); hold off %y1min
-%         y_lb = min(BOP_vyminmax(:,3)); y_ub = max(BOP_vyminmax(:,4));
-%         title("BOP Constraint 1: Output Power"); ylabel('Power (MW)'); 
-%     elseif unit_idx==2
-%         plot(time,SES_vyminmax(:,4),'--r','LineWidth',3); hold on
-%         plot(time,SES_vyminmax(:,2),'-k');
-%         plot(time,SES_vyminmax(:,3),'--b','LineWidth',3); hold off
+        y_lb = -5; y_ub = max(SES_vyminmax(:,4));
+        title('SES Dispatched Power')
+    elseif unit_idx==3
+        plot(time,TES_vyminmax(:,1))
+        y_lb = min(TES_vyminmax(:,1)); y_ub = max(TES_vyminmax(:,1));
+        title({'TES Dispatched Power','Discharging(-)/Charging(+)'})
+    end
+    xlabel('Time (Hour)');ylabel('Power (MW)'); 
+    xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
+    % TODO: Change the scale to the y1 level for BOP and SES
+%     ylim([y_lb-1 y_ub+1])
+    ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+    ytickformat('%.2f')
+    
+    % Plot y1 and its min/max
+    subplot(3,3,(unit_idx-1)*3+2)
+    if unit_idx==1
+        plot(time,BOP_vyminmax(:,4),'--r','LineWidth',3); hold on % y1max
+        plot(time,BOP_vyminmax(:,2),'-k'); % y1
+        plot(time,BOP_vyminmax(:,3),'--b','LineWidth',3); hold off %y1min
+        y_lb = min(BOP_vyminmax(:,3)); y_ub = max(BOP_vyminmax(:,4));
+        title("BOP Constraint 1: Output Power"); ylabel('Power (MW)'); 
+    elseif unit_idx==2
+        plot(time,SES_vyminmax(:,4),'--r','LineWidth',3); hold on
+        plot(time,SES_vyminmax(:,2),'-k');
+        plot(time,SES_vyminmax(:,3),'--b','LineWidth',3); hold off
 %         y_lb = min(SES_vyminmax(:,3)); y_ub = max(SES_vyminmax(:,4));
-%         title("SES Constraint 1: Output Power"); ylabel('Power (MW)'); 
-%     elseif unit_idx==3
-%         plot(time,TES_vyminmax(:,4),'--r','LineWidth',3); hold on
-%         plot(time,TES_vyminmax(:,2),'-k');
-%         plot(time,TES_vyminmax(:,3),'--b','LineWidth',3); hold off
-%         y_lb = min(TES_vyminmax(:,3)); y_ub = max(TES_vyminmax(:,4));
-%         title("TES Constraint 1: Hot Tank Level"); ylabel('Level (m)'); 
-%     end
-%     xlabel('Time (Hour)');xlim([0 24]); xticks(0:4:24)
-%     ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
-%     legend('Upper Bound','Output #1','Lower Bound','Location','southwest')
-%     
-%     % Plot y2 and its min/max
-%     subplot(3,3,(unit_idx-1)*3+3)
-%     if unit_idx==1
-%         plot(time,BOP_vyminmax(:,7),'--r','LineWidth',3); hold on % y1max
-%         plot(time,BOP_vyminmax(:,5),'-k'); % y1
-%         plot(time,BOP_vyminmax(:,6),'--b','LineWidth',3); hold off %y1min
-%         y_lb = min(BOP_vyminmax(:,6)); y_ub = max(BOP_vyminmax(:,7));
-%         title("BOP Constraint 2: Turbine Pressure"); ylabel('Pressure (Bar)'); 
-%     elseif unit_idx==2
-%         plot(time,SES_vyminmax(:,7),'--r','LineWidth',3); hold on
-%         plot(time,SES_vyminmax(:,5),'-k');
-%         plot(time,SES_vyminmax(:,6),'--b','LineWidth',3); hold off
-%         y_lb = min(SES_vyminmax(:,6)); y_ub = max(SES_vyminmax(:,7));
-%         title("SES Constraint 2: Firing Temperature"); ylabel('Temperature (K)'); 
-%     elseif unit_idx==3
-%         plot(time,TES_vyminmax(:,7),'--r','LineWidth',3); hold on
-%         plot(time,TES_vyminmax(:,5),'-k');
-%         plot(time,TES_vyminmax(:,6),'--b','LineWidth',3); hold off
-%         y_lb = min(TES_vyminmax(:,6)); y_ub = max(TES_vyminmax(:,7));
-%         title("TES Constraint 2: Cold Tank Level"); ylabel('Level (m)'); 
-%     end
-%     xlabel('Time (Hour)');xlim([0 24]); xticks(0:4:24)
-%     ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
-%     legend('Upper Bound','Output #2','Lower Bound','Location','southwest')
-%         
-%     
-% end
-%% Plot everything in one figure
-figure(3)
+        y_lb = -5; y_ub = max(SES_vyminmax(:,4));
+        title("SES Constraint 1: Output Power"); ylabel('Power (MW)'); 
+    elseif unit_idx==3
+        plot(time,TES_vyminmax(:,4),'--r','LineWidth',3); hold on
+        plot(time,TES_vyminmax(:,2),'-k');
+        plot(time,TES_vyminmax(:,3),'--b','LineWidth',3); hold off
+        y_lb = min(TES_vyminmax(:,3)); y_ub = max(TES_vyminmax(:,4));
+        title("TES Constraint 1: Hot Tank Level"); ylabel('Level (m)'); 
+    end
+    xlabel('Time (Hour)');
+    xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
+    ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+    legend('Upper Bound','Output #1','Lower Bound','Location','southwest')
+    
+    % Plot y2 and its min/max
+    subplot(3,3,(unit_idx-1)*3+3)
+    if unit_idx==1
+        plot(time,BOP_vyminmax(:,7),'--r','LineWidth',3); hold on % y1max
+        plot(time,BOP_vyminmax(:,5),'-k'); % y1
+        plot(time,BOP_vyminmax(:,6),'--b','LineWidth',3); hold off %y1min
+        y_lb = min(BOP_vyminmax(:,6)); y_ub = max(BOP_vyminmax(:,7));
+        title("BOP Constraint 2: Turbine Pressure"); ylabel('Pressure (Bar)'); 
+    elseif unit_idx==2
+        plot(time,SES_vyminmax(:,7),'--r','LineWidth',3); hold on
+        plot(time,SES_vyminmax(:,5),'-k');
+        plot(time,SES_vyminmax(:,6),'--b','LineWidth',3); hold off
+        y_lb = min(SES_vyminmax(:,6)); y_ub = max(SES_vyminmax(:,7));
+        title("SES Constraint 2: Firing Temperature"); ylabel('Temperature (K)'); 
+    elseif unit_idx==3
+        plot(time,TES_vyminmax(:,7),'--r','LineWidth',3); hold on
+        plot(time,TES_vyminmax(:,5),'-k');
+        plot(time,TES_vyminmax(:,6),'--b','LineWidth',3); hold off
+        y_lb = min(TES_vyminmax(:,6)); y_ub = max(TES_vyminmax(:,7));
+        title("TES Constraint 2: Cold Tank Level"); ylabel('Level (m)'); 
+    end
+    xlabel('Time (Hour)');
+    xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
+    ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+    legend('Upper Bound','Output #2','Lower Bound','Location','southwest')
+        
+    
+end
+print('Figure_20.png','-dpng','-r300')
+
+%% 3. Plot everything in one figure
+figure(30)
 set(gcf,'Position',[100 50 2240 1260])
 subplot(3,4,[1 5 9]) 
 % Plot the stacked bar of power components
@@ -163,7 +180,7 @@ bar(time_hour, power_array_hour, 'stacked');hold on
 % Plot the total power provided
 plot(time, power_provided,'LineWidth',3);hold off
 xlabel('Time (Hour)');ylabel('Power (MW)'); 
-xlim([0 24]);xticks(0:4:24)
+xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
 legend('BOP Output Power','SES Output Power','TES Discharging(+)/Charging(-)','Market Demand','Location','best')
 title('Contribution of each Power Source')
 
@@ -172,11 +189,13 @@ for unit_idx=1:3
     subplot(3,4,(unit_idx-1)*4+2)
     if unit_idx==1
         plot(time,BOP_vyminmax(:,1))
-        y_lb = min(BOP_vyminmax(:,1)); y_ub = max(BOP_vyminmax(:,1));
+%         y_lb = min(BOP_vyminmax(:,1)); y_ub = max(BOP_vyminmax(:,1));
+        y_lb = min(BOP_vyminmax(:,3)); y_ub = max(BOP_vyminmax(:,4));
         title('BOP Dispatched Power')
     elseif unit_idx==2
         plot(time,SES_vyminmax(:,1))
-        y_lb = min(SES_vyminmax(:,1)); y_ub = max(SES_vyminmax(:,1));
+%         y_lb = min(SES_vyminmax(:,1)); y_ub = max(SES_vyminmax(:,1));
+        y_lb = -5; y_ub = max(SES_vyminmax(:,4));
         title('SES Dispatched Power')
     elseif unit_idx==3
         plot(time,TES_vyminmax(:,1))
@@ -184,8 +203,10 @@ for unit_idx=1:3
         title({'TES Dispatched Power','Discharging(-)/Charging(+)'})
     end
     xlabel('Time (Hour)');ylabel('Power (MW)'); 
-    xlim([0 24]); ylim([y_lb-1 y_ub+1])
-    xticks(0:4:24)
+    xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
+    % TODO: Change the scale to the y1 level for BOP and SES
+%     ylim([y_lb-1 y_ub+1])
+    ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
     ytickformat('%.2f')
     
     % Plot y1 and its min/max
@@ -200,7 +221,8 @@ for unit_idx=1:3
         plot(time,SES_vyminmax(:,4),'--r','LineWidth',3); hold on
         plot(time,SES_vyminmax(:,2),'-k');
         plot(time,SES_vyminmax(:,3),'--b','LineWidth',3); hold off
-        y_lb = min(SES_vyminmax(:,3)); y_ub = max(SES_vyminmax(:,4));
+%         y_lb = min(SES_vyminmax(:,3)); y_ub = max(SES_vyminmax(:,4));
+        y_lb = -5; y_ub = max(SES_vyminmax(:,4));
         title("SES Constraint 1: Output Power"); ylabel('Power (MW)'); 
     elseif unit_idx==3
         plot(time,TES_vyminmax(:,4),'--r','LineWidth',3); hold on
@@ -209,7 +231,7 @@ for unit_idx=1:3
         y_lb = min(TES_vyminmax(:,3)); y_ub = max(TES_vyminmax(:,4));
         title("TES Constraint 1: Hot Tank Level"); ylabel('Level (m)'); 
     end
-    xlabel('Time (Hour)');xlim([0 24]); xticks(0:4:24)
+    xlabel('Time (Hour)');xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
     ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
     legend('Upper Bound','Output #1','Lower Bound','Location','best')
     % Plot y2 and its min/max
@@ -233,12 +255,64 @@ for unit_idx=1:3
         y_lb = min(TES_vyminmax(:,6)); y_ub = max(TES_vyminmax(:,7));
         title("TES Constraint 2: Cold Tank Level"); ylabel('Level (m)'); 
     end
-    xlabel('Time (Hour)');xlim([0 24]); xticks(0:4:24)
+    xlabel('Time (Hour)');xlim([x_label_min x_label_max]);xticks(x_label_min:x_tick_interval:x_label_max)
     ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
     legend('Upper Bound','Output #2','Lower Bound','Location','best')
         
     
 end
+print('Figure_30.png','-dpng','-r300')
+
+%% 4. Plot the implicit constraints in 2D 
+figure(40)
+set(gcf,'Position',[100 100 1400 600])
+
+for unit_idx=1:3
+    % Plot y1(x) with y2 (y) and their min/max
+    subplot(1,3,unit_idx)
+    if unit_idx==1 % BOP
+        x_lb = min(BOP_vyminmax(:,3)); x_ub = max(BOP_vyminmax(:,4));
+        y_lb = min(BOP_vyminmax(:,6)); y_ub = max(BOP_vyminmax(:,7));
+        rectangle('Position',[x_lb y_lb x_ub-x_lb y_ub-y_lb],'LineStyle','--','LineWidth',3)
+        xlim([x_lb-(x_ub-x_lb)*0.2 x_ub+(x_ub-x_lb)*0.2])
+        ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+        hold on
+        plot(BOP_vyminmax(:,2),BOP_vyminmax(:,5),'-o')
+        hold off        
+        title("BOP Implicit Constraints"); 
+        ylabel('y2, Turbine Pressure (Bar)'); 
+        xlabel('y1, Output Power (MW)')
+%         legend('Turbine Pressure v.s. Output Power')
+    elseif unit_idx==2
+        x_lb = min(SES_vyminmax(:,3)); x_ub = max(SES_vyminmax(:,4));
+        y_lb = min(SES_vyminmax(:,6)); y_ub = max(SES_vyminmax(:,7));
+        rectangle('Position',[x_lb y_lb x_ub-x_lb y_ub-y_lb],'LineStyle','--','LineWidth',3)
+        xlim([x_lb-(x_ub-x_lb)*0.2 x_ub+(x_ub-x_lb)*0.2])
+        ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+        hold on
+        plot(SES_vyminmax(:,2),SES_vyminmax(:,5),'-o')
+        hold off
+        title("SES Implicit Constraints"); 
+        ylabel('y2, Firing Temperature (K)'); 
+        xlabel('y1, Output Power (MW)')
+%         legend('Firing Temperature v.s. Output Power')
+    elseif unit_idx==3
+        x_lb = min(TES_vyminmax(:,3)); x_ub = max(TES_vyminmax(:,4));
+        y_lb = min(TES_vyminmax(:,6)); y_ub = max(TES_vyminmax(:,7));
+        rectangle('Position',[x_lb y_lb x_ub-x_lb y_ub-y_lb],'LineStyle','--','LineWidth',3)
+        xlim([x_lb-(x_ub-x_lb)*0.2 x_ub+(x_ub-x_lb)*0.2])
+        ylim([y_lb-(y_ub-y_lb)*0.2 y_ub+(y_ub-y_lb)*0.2])
+        hold on
+        plot(TES_vyminmax(:,2),TES_vyminmax(:,5),'-o')
+        hold off
+        title("TES Implicit Constraints"); 
+        ylabel('y2, Cold Tank Level (m)') 
+        xlabel('y1, Hot Tank Level (m)')
+%         legend('Cold Tank Level v.s. Hot Tank Level')
+    end
+end
+print('Figure_40.png','-dpng','-r300')
+
 
 
 %%

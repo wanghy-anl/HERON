@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<Simulation verbosity="debug">
+  <TestInfo>
+    <name>framework/ROM/timeSeries/ARMA.PreserveCdf</name>
+    <author>alfoa</author>
+    <created>2021-04-20</created>
+    <classesTested>SupervisedLearning.ARMA</classesTested>
+    <description>weekly arma (net demand) hourly</description>
+  </TestInfo>
+
+  <RunInfo>
+    <WorkingDir>ERCOT_Week_ARMA</WorkingDir>
+    <Sequence>load, typical_history</Sequence>
+  </RunInfo>
+
+  <Steps>
+    <IOStep name="load">
+      <Input class="Files" type="">input</Input>
+      <Output class="DataObjects" type="HistorySet">inputRaw</Output>
+    </IOStep>
+    <PostProcess name="typical_history" pauseAtEnd="True">
+      <Input class="DataObjects" type="HistorySet">inputRaw</Input>
+      <Model class="Models" type="PostProcessor">TypicalHistory</Model>
+      <Output class="DataObjects" type="HistorySet">input</Output>
+      <Output class="OutStreams" type="Print">input</Output>
+    </PostProcess>  
+  </Steps>
+
+  <Files>
+    <Input name="input">ERCOT_2019_Load_VRE_hourly.csv</Input>
+  </Files>
+
+  <DataObjects>
+    <HistorySet name="inputRaw">
+      <Input>scaling, Year</Input>
+      <Output>netLoad, Time</Output>
+      <options>
+        <pivotParameter>Time</pivotParameter>
+      </options>
+    </HistorySet>
+
+    <HistorySet name="input">
+      <Input>scaling, Year</Input>
+      <Output>netLoad, Time</Output>
+      <options>
+        <pivotParameter>Time</pivotParameter>
+      </options>
+    </HistorySet>
+	
+  </DataObjects>
+
+  <Models>
+    <PostProcessor name="TypicalHistory" subType="InterfacedPostProcessor">
+      <method>TypicalHistoryFromHistorySet</method>
+      <subseqLen>24</subseqLen>
+      <outputLen>167</outputLen>
+      <pivotParameter>Time</pivotParameter>
+    </PostProcessor>
+  </Models>
+
+  <OutStreams>
+    <Print name="input">
+      <type>csv</type>
+      <source>input</source>
+    </Print>
+  </OutStreams>
+
+</Simulation>

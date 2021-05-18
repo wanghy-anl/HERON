@@ -1,0 +1,14 @@
+<DataObjectMetadata name="synthetic">
+  <DataSet type="Static">
+    <dims>
+      <netLoad>Time,Year</netLoad>
+    </dims>
+    <general>
+      <inputs>scaling</inputs>
+      <outputs>netLoad</outputs>
+      <pointwise_meta>PointProbability,ProbabilityWeight,prefix</pointwise_meta>
+      <sampleTag>RAVEN_sample_ID</sampleTag>
+    </general>
+  </DataSet>
+  
+</DataObjectMetadata>

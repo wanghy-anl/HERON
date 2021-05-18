@@ -1,0 +1,13 @@
+<DataObjectMetadata name="input">
+  <DataSet type="Static">
+    <dims>
+      <netLoad>Time</netLoad>
+    </dims>
+    <general>
+      <inputs>scaling,Year</inputs>
+      <outputs>netLoad</outputs>
+      <sampleTag>RAVEN_sample_ID</sampleTag>
+    </general>
+  </DataSet>
+  
+</DataObjectMetadata>

@@ -13,7 +13,7 @@
       <GlobalROM segment="all" type="Static">
         <Signal>
           <Fourier>
-            <SignalIntercept>-1.143000000e+03</SignalIntercept>
+            <SignalIntercept>-1.130000000e+03</SignalIntercept>
             <period>2.400000000e+01
               <frequency>4.166666667e-02</frequency>
               <amplitude>7.999883387e+01</amplitude>
@@ -25,7 +25,7 @@
       <ClusterROM cluster="0" type="Static">
         <Signal>
           <Fourier>
-            <SignalIntercept>-1.143000000e+03</SignalIntercept>
+            <SignalIntercept>-1.130000000e+03</SignalIntercept>
             <period>2.400000000e+01
               <frequency>4.166666667e-02</frequency>
               <amplitude>7.999883387e+01</amplitude>

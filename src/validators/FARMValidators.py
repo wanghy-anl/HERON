@@ -196,6 +196,9 @@ class Para_RefGov_SESBOPTES_MW(Validator):
                 elif v_RG > v_max:
                   v_RG = v_max
                 
+                # # Pretend there is no FARM intervention
+                # v_RG = np.asarray(r_value-r_0).flatten()
+
                 v_value = v_RG + r_0 # absolute value of electrical power (MW)
                 v_value = float(v_value)
 

@@ -1,0 +1,34 @@
+<DataObjectMetadata name="meta">
+  <arma type="Static">
+    <ROM>
+      <type>Interp. Cluster ROM</type>
+    </ROM>
+    <InterpolatedMultiyearROM type="Static">
+      <MacroParameterID>Year</MacroParameterID>
+      <MacroSteps>1</MacroSteps>
+      <MacroFirstStep>10</MacroFirstStep>
+      <MacroLastStep>10</MacroLastStep>
+    </InterpolatedMultiyearROM>
+    <MacroStepROM Year="10" type="Static">
+      <GlobalROM segment="all" type="Static" />
+      <ClusterROM cluster="0" type="Static">
+        <Signal>
+          <Fourier>
+            <SignalIntercept>-1.143000000e+03</SignalIntercept>
+            <period>2.400000000e+01
+              <frequency>4.166666667e-02</frequency>
+              <amplitude>7.999883387e+01</amplitude>
+              <phase>2.369637815e-15</phase>
+            </period>
+          </Fourier>
+          <ARMA_params>
+            <std>2.76653258168</std>
+          </ARMA_params>
+        </Signal>
+        <segments_represented>0</segments_represented>
+        <indices>0, 168</indices>
+      </ClusterROM>
+    </MacroStepROM>
+  </arma>
+  
+</DataObjectMetadata>
