@@ -67,7 +67,7 @@ class Pyomo(Dispatcher):
       @ Out, None
     """
     self.name = 'PyomoDispatcher' # identifying name
-    self._window_len = 200         # time window length to dispatch at a time # FIXME user input
+    self._window_len = 24         # time window length to dispatch at a time # FIXME user input
 
   def read_input(self, specs):
     """
